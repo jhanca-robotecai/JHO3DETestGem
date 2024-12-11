@@ -50,7 +50,13 @@ ly_add_target(
         PUBLIC
             AZ::AzCore
             AZ::AzFramework
+            Gem::ROS2.Static
+            Gem::Atom_AtomBridge.Static
+            Gem::CommonFeaturesAtom.Static
 )
+
+# Request ROS2 packages to be included
+target_depends_on_ros2_packages(${gem_name}.Private.Object rclcpp tf2 std_msgs std_srvs)
 
 # Here add ${gem_name} target, it depends on the Private Object library and Public API interface
 ly_add_target(
