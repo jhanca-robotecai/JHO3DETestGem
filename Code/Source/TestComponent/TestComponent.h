@@ -22,10 +22,6 @@
 
 namespace JHO3DETestGem
 {
-    using TriggerSrvRequest = std::shared_ptr<std_srvs::srv::Trigger::Request>;
-    using TriggerSrvResponse = std::shared_ptr<std_srvs::srv::Trigger::Response>;
-    using TriggerSrvHandle = std::shared_ptr<rclcpp::Service<std_srvs::srv::Trigger>>;
-
     class TestComponent
         : public AZ::Component
         , public AZ::TickBus::Handler

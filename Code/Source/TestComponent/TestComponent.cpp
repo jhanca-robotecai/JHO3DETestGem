@@ -76,7 +76,9 @@ namespace JHO3DETestGem
         AZStd::string serviceName = ROS2::ROS2Names::GetNamespacedName(ros2Frame->GetNamespace(), m_serviceName);
         m_lightsOnService = ros2Node->create_service<std_srvs::srv::Trigger>(
             serviceName.c_str(),
-            [this]([[maybe_unused]] const TriggerSrvRequest request, TriggerSrvResponse response)
+            [this](
+                [[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trigger::Request> request,
+                std::shared_ptr<std_srvs::srv::Trigger::Response> response)
             {
                 if (!m_lightsEntityId.IsValid())
                 {
