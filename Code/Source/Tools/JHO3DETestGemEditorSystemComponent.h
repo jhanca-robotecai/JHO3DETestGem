@@ -2,6 +2,7 @@
 #pragma once
 
 #include <AzToolsFramework/API/ToolsApplicationAPI.h>
+#include <AzToolsFramework/Entity/EditorEntityContextBus.h>
 
 #include <Clients/JHO3DETestGemSystemComponent.h>
 
@@ -11,6 +12,7 @@ namespace JHO3DETestGem
     class JHO3DETestGemEditorSystemComponent
         : public JHO3DETestGemSystemComponent
         , protected AzToolsFramework::EditorEvents::Bus::Handler
+        , private AzToolsFramework::EditorEntityContextNotificationBus::Handler
     {
         using BaseSystemComponent = JHO3DETestGemSystemComponent;
     public:
@@ -30,5 +32,9 @@ namespace JHO3DETestGem
         // AZ::Component
         void Activate() override;
         void Deactivate() override;
+
+        // EditorEntityContextNotificationBus overrides
+        void OnStartPlayInEditorBegin() override;
+        void OnStopPlayInEditor() override;
     };
 } // namespace JHO3DETestGem

@@ -3,6 +3,7 @@
 #include "JHO3DETestGemEditorSystemComponent.h"
 
 #include <JHO3DETestGem/JHO3DETestGemTypeIds.h>
+#include <iostream>
 
 namespace JHO3DETestGem
 {
@@ -48,12 +49,25 @@ namespace JHO3DETestGem
     {
         JHO3DETestGemSystemComponent::Activate();
         AzToolsFramework::EditorEvents::Bus::Handler::BusConnect();
+        AzToolsFramework::EditorEntityContextNotificationBus::Handler::BusConnect();
     }
 
     void JHO3DETestGemEditorSystemComponent::Deactivate()
     {
         AzToolsFramework::EditorEvents::Bus::Handler::BusDisconnect();
         JHO3DETestGemSystemComponent::Deactivate();
+        AzToolsFramework::EditorEntityContextNotificationBus::Handler::BusDisconnect();
+    }
+
+    void JHO3DETestGemEditorSystemComponent::OnStartPlayInEditorBegin()
+    {
+        std::cout << "JHDEBUG: OnStartPlayInEditorBegin!!!!\n";
+        AZ_Error("JHDEBUG", false, "Triggering OnStartPlayInEditorBegin");
+    }
+    void JHO3DETestGemEditorSystemComponent::OnStopPlayInEditor()
+    {
+        std::cout << "JHDEBUG: OnStopPlayInEditor!!!!\n";
+        AZ_Error("JHDEBUG", false, "Triggering OnStopPlayInEditor");
     }
 
 } // namespace JHO3DETestGem
