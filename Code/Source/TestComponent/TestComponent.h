@@ -44,16 +44,15 @@ namespace JHO3DETestGem
         void OnTick(float deltaTime, AZ::ScriptTimePoint time) override;
         //////////////////////////////////////////////////////////////////////////
 
-        rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr m_lightsOnService;
         AZStd::string m_serviceName{ "service_name" };
-        AZ::EntityId m_lightsEntityId;
-
         ROS2::TopicConfiguration m_subscriberConfiguration;
-        rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr m_subscriber;
-
         ROS2::TopicConfiguration m_publisherConfiguration;
+
+        rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr m_lightsOnService;
+        rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr m_subscriber;
         rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr m_publisher;
 
         bool SetLightsIntensity(const float targetIntensity);
+        AZ::EntityId m_lightsEntityId;
     };
 } // namespace JHO3DETestGem

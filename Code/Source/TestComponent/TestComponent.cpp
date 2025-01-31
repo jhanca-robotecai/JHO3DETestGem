@@ -104,13 +104,7 @@ namespace JHO3DETestGem
             m_subscriberConfiguration.GetQoS(),
             [this](const std_msgs::msg::Float32::SharedPtr msg)
             {
-                // Copy the message to avoid lifetime issues.
-                const float targetIntensity = msg->data;
-
-                if (m_lightsEntityId.IsValid())
-                {
-                    SetLightsIntensity(targetIntensity);
-                }
+                SetLightsIntensity(msg->data);
             });
 
         m_publisher = ros2Node->create_publisher<std_msgs::msg::Float32>(
