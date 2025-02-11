@@ -16,6 +16,7 @@
 
 #include <AzFramework/Asset/GenericAssetHandler.h>
 #include <AzFramework/Spawnable/Spawnable.h>
+#include <AzFramework/Spawnable/SpawnableEntitiesInterface.h>
 
 #include <iostream>
 
@@ -25,9 +26,8 @@ namespace JHO3DETestGem
     {
         if (auto serializeContext = azrtti_cast<AZ::SerializeContext*>(context))
         {
-            serializeContext->Class<TestComponent, AZ::Component>()
-                ->Version(0)
-                ->Field("SubscriberConfiguration", &TestComponent::m_subscriberConfiguration);
+            serializeContext->Class<TestComponent, AZ::Component>()->Version(0)->Field(
+                "SubscriberConfiguration", &TestComponent::m_subscriberConfiguration);
 
             if (auto editContext = serializeContext->GetEditContext())
             {
@@ -71,7 +71,7 @@ namespace JHO3DETestGem
             [this](const std_msgs::msg::String::SharedPtr msg)
             {
                 const AZStd::string prefabPath = msg->data.c_str();
-                std::cout << "JHDEBUG JHDEBUG JHDEBUG JHDEBUG SpawnablePath: " << prefabPath.c_str() << "\n";
+                std::cout << "JHDEBUG JHDEBUG JHDEBUG SpawnablePath: " << prefabPath.c_str() << "\n";
                 HelperMethod(prefabPath);
             });
     }
@@ -93,8 +93,24 @@ namespace JHO3DETestGem
             azrtti_typeid<AzFramework::Spawnable>(),
             false);
 
-        std::cout << "JHDEBUG JHDEBUG JHDEBUG JHDEBUG SpawnablePath: " << spawnablePath.c_str() << "\n";
-        std::cout << "JHDEBUG JHDEBUG JHDEBUG JHDEBUG SpawnableId: " << spawnableId.m_guid.ToString<AZStd::string>().c_str() << "\n";
+        std::cout << "JHDEBUG JHDEBUG JHDEBUG SpawnablePath: " << spawnablePath.c_str() << "\n";
+        std::cout << "JHDEBUG JHDEBUG JHDEBUG SpawnableId: " << spawnableId.m_guid.ToString<AZStd::string>().c_str() << "\n";
 
+        if (!spawnableId.IsValid())
+        {
+            std::cout << "JHDEBUG JHDEBUG JHDEBUG Cannot spawn\n";
+            return;
+        }
+
+        AZ::Data::Asset<AzFramework::Spawnable> spawnableAsset =
+            AZ::Data::AssetManager::Instance().GetAsset<AzFramework::Spawnable>(spawnableId, AZ::Data::AssetLoadBehavior::QueueLoad);
+
+        auto spawnableTicket = AzFramework::EntitySpawnTicket(spawnableAsset);
+        m_tickets.emplace(prefabPath, AZStd::move(spawnableTicket));
+
+        auto* spawner = AZ::Interface<AzFramework::SpawnableEntitiesDefinition>::Get();
+        spawner->SpawnAllEntities(m_tickets.at(prefabPath));
+
+        std::cout << "JHDEBUG JHDEBUG JHDEBUG Spawned\n";
     }
 } // namespace JHO3DETestGem
