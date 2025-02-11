@@ -7,7 +7,6 @@
  */
 
 #include "TestComponent.h"
-#include <AtomLyIntegration/CommonFeatures/CoreLights/AreaLightBus.h>
 #include <AzCore/Component/TransformBus.h>
 #include <AzCore/Serialization/EditContext.h>
 #include <AzCore/Serialization/SerializeContext.h>
@@ -18,13 +17,15 @@
 #include <AzFramework/Asset/GenericAssetHandler.h>
 #include <AzFramework/Spawnable/Spawnable.h>
 
+#include <iostream>
+
 namespace JHO3DETestGem
 {
     void TestComponent::Reflect(AZ::ReflectContext* context)
     {
         if (auto serializeContext = azrtti_cast<AZ::SerializeContext*>(context))
         {
-            serializeContext->Class<TestComponent>()
+            serializeContext->Class<TestComponent, AZ::Component>()
                 ->Version(0)
                 ->Field("SubscriberConfiguration", &TestComponent::m_subscriberConfiguration);
 
@@ -70,7 +71,7 @@ namespace JHO3DETestGem
             [this](const std_msgs::msg::String::SharedPtr msg)
             {
                 const AZStd::string prefabPath = msg->data.c_str();
-                AZ_Error("JHDEBUG", false, "Subscriber called: %s", prefabPath.c_str());
+                std::cout << "JHDEBUG JHDEBUG JHDEBUG JHDEBUG SpawnablePath: " << prefabPath.c_str() << "\n";
                 HelperMethod(prefabPath);
             });
     }
@@ -92,8 +93,8 @@ namespace JHO3DETestGem
             azrtti_typeid<AzFramework::Spawnable>(),
             false);
 
-        AZ_Error("JHDEBUG", false, "SpawnablePath %s", spawnablePath.c_str());
-        AZ_Error("JHDEBUG", false, "SpawnableId: %llu", spawnableId);
+        std::cout << "JHDEBUG JHDEBUG JHDEBUG JHDEBUG SpawnablePath: " << spawnablePath.c_str() << "\n";
+        std::cout << "JHDEBUG JHDEBUG JHDEBUG JHDEBUG SpawnableId: " << spawnableId.m_guid.ToString<AZStd::string>().c_str() << "\n";
 
     }
 } // namespace JHO3DETestGem

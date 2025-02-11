@@ -1,5 +1,6 @@
 
 #include "JHO3DETestGemModuleInterface.h"
+#include "TestComponent/TestComponent.h"
 #include <AzCore/Memory/Memory.h>
 
 #include <JHO3DETestGem/JHO3DETestGemTypeIds.h>
@@ -21,6 +22,7 @@ namespace JHO3DETestGem
         // This happens through the [MyComponent]::Reflect() function.
         m_descriptors.insert(m_descriptors.end(), {
             JHO3DETestGemSystemComponent::CreateDescriptor(),
+            TestComponent::CreateDescriptor(),
             });
     }
 

@@ -51,8 +51,6 @@ ly_add_target(
             AZ::AzCore
             AZ::AzFramework
             Gem::ROS2.Static
-            Gem::Atom_AtomBridge.Static
-            Gem::CommonFeaturesAtom.Static
 )
 
 # Request ROS2 packages to be included

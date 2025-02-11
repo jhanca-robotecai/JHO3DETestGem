@@ -1,6 +1,5 @@
 
 #include "JHO3DETestGemEditorSystemComponent.h"
-#include "TestComponent/TestComponent.h"
 #include <JHO3DETestGem/JHO3DETestGemTypeIds.h>
 #include <JHO3DETestGemModuleInterface.h>
 
@@ -19,7 +18,7 @@ namespace JHO3DETestGem
             // This will associate the AzTypeInfo information for the components with the the SerializeContext, BehaviorContext and
             // EditContext. This happens through the [MyComponent]::Reflect() function.
             m_descriptors.insert(
-                m_descriptors.end(), { JHO3DETestGemEditorSystemComponent::CreateDescriptor(), TestComponent::CreateDescriptor() });
+                m_descriptors.end(), { JHO3DETestGemEditorSystemComponent::CreateDescriptor() });
         }
 
         /**
